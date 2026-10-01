@@ -6,8 +6,8 @@ Attemp to make simple todo console app.
 
 C++ version: 14
 
-Run: `g++ todo.cpp`
-Then open created file and write `help` to see command list.
+Run: `g++ todo.cpp`.
+Then execute created file and write `help` to see command list.
 
 ## Commands
 
