@@ -7,11 +7,12 @@ using std::cout;
 using std::cin;
 using std::string;
 using std::vector;
-using std::fstream;
+using std::ifstream;
+using std::ofstream;
 
 
-void fill_todos(vector<string> *todos) {
-  fstream file("./data");
+void load_todos(vector<string> *todos) {
+  ifstream file("./data");
 
   todos->clear();
 
@@ -20,12 +21,12 @@ void fill_todos(vector<string> *todos) {
     todos->push_back(line);
   }
 
- file.close();
+  file.close();
 }
 
 void save_todos(vector<string> *todos) {
   string saved_todos;
-  fstream file("./data", fstream::out | fstream::trunc);
+  ofstream file("./data", ofstream::out | ofstream::trunc);
   
   for (size_t i = 0; i < todos->size(); i++) {
     saved_todos += todos->at(i) + '\n';
@@ -123,42 +124,34 @@ int main() {
   vector<string> todos;
   string command;
 
-  cout << "Welcome to Todo App!\n";
+  cout << "Welcome to Todo App!\n\n";
   
-  fill_todos(&todos);
+  load_todos(&todos);
   print_todos(&todos);
 
   while(command != "quit") {
-    cout << "> ";
+    cout << '\n' << "> ";
     getline(cin, command);
 
     if (command == "quit") continue;
-    else if (command.rfind("help", 0) == 0)
+    else if (command.rfind("help", 0) == 0) {
       cout << "Command list:\n- add [text] - Add new todo\n- check [id] - Mark todo as checked\n- uncheck [id] - Mark todo as unchecked\n- remove [id] - Remove todo\n";
-    else if (command.rfind("add", 0) == 0) {
-      add_todo(&todos, &command);
-      cout << '\n';
-      print_todos(&todos);
+      continue;
     }
-    else if (command.rfind("remove", 0) == 0) {
-      remove_todo(&todos, &command);
-      cout << '\n';
-      print_todos(&todos);
-    }
-    else if (command.rfind("check", 0) == 0) {
-      check_todo(&todos, &command);
-      cout << '\n';
-      print_todos(&todos);
-    }
-    else if (command.rfind("uncheck", 0) == 0) {
-      uncheck_todo(&todos, &command);
-      cout << '\n';
-      print_todos(&todos);
-    }
-    else cout << "Unknown command.\nEnter 'help' to see a list of commands.\n\n";
+    else if (command.rfind("add", 0) == 0) add_todo(&todos, &command);
+    else if (command.rfind("remove", 0) == 0) remove_todo(&todos, &command);
+    else if (command.rfind("check", 0) == 0) check_todo(&todos, &command);
+    else if (command.rfind("uncheck", 0) == 0) uncheck_todo(&todos, &command);
+    else {
+      cout << "Unknown command.\nEnter 'help' to see a list of commands.\n\n";
+      continue;
+    };
+
+    cout << '\n';
+    print_todos(&todos);
   }
 
-  cout << "Quited.\n";
+  cout << "\nQuited.\n";
 
   save_todos(&todos);
 

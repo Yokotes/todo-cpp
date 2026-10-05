@@ -6,12 +6,12 @@ Attemp to make simple todo console app.
 
 C++ version: 14
 
-Run: `g++ todo.cpp`.
+Build: `g++ todo.cpp`.
 Then execute created file and write `help` to see command list.
 
 ## Commands
 
-There are a few commands:
+There are few commands:
 
 - add [text] - create new todo
 - remove [id] - remove existing to by id
